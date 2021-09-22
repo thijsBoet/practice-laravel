@@ -47,3 +47,19 @@ Route::get('post/{id}', function ($id) use($posts){
 Route::view('/about', 'about')->name('about');
 
 Route::view('/contact', 'contact')->name('contact');
+
+Route::prefix('/re')->name('res.')->group(function() use($posts) {
+    Route::get('/response', function () use ($posts) {
+        return response($posts, 201)
+            ->header('Content-Type', 'application/json')
+            ->cookie('MY_COOKIE', 'Matthijs Boet', 3600);
+    })->name('responses');
+
+    Route::get('/redirect', function() {
+        return redirect('/');
+    })->name('/redirect');
+
+    Route::get('/back', function () {
+        return back();
+    })->name('back');
+});
